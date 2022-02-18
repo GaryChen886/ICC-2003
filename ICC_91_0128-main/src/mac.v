@@ -23,27 +23,17 @@ module mac (instruction, multiplier, multiplicand, stall, clk, reset_n, result, 
             multip <= 0;
             mulcand <= 0;
             ins1 <= 0;
-        end else begin
+            ins2 <= 0;
+        end 
+        else begin
             if (!stall) begin
                 multip <= multiplier;
                 mulcand <= multiplicand;
                 ins1 <= instruction;
-            end
-        end
-    end
-
-
-    always @(posedge clk) begin
-        if (!reset_n) begin
-            ins2 <= 0;
-        end else begin
-            if (!stall) begin
                 ins2 <= ins1;
             end
         end
     end
-
-
     always @(posedge clk) begin
         if (!reset_n) begin
             tmp16 <= 40'd0;
@@ -164,9 +154,8 @@ module mac (instruction, multiplier, multiplicand, stall, clk, reset_n, result, 
                     end
                 endcase
             end 
-            else begin
-                {protect[7:0], result[31:0]} <= {protect[7:0], result[31:0]};            
-            end
+            else
+                {protect[7:0], result[31:0]} <= {protect[7:0], result[31:0]};
         end
     end
 
